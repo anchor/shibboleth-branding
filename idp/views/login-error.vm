@@ -6,20 +6,17 @@
     ## This handles errors that are classified by the message maps in the authentication config.
     #set ($eventId = $authenticationErrorContext.getClassifiedErrors().iterator().next())
     #set ($eventKey = $springMacroRequestContext.getMessage("$eventId", "login"))
+    #set ($error_title = $springMacroRequestContext.getMessage("${eventKey}.title", "Login Failed"))
     #set ($message = $springMacroRequestContext.getMessage("${eventKey}.message", "Login Failure: $eventId"))
 #elseif ($authenticationErrorContext && $authenticationErrorContext.getExceptions().size() > 0)
     ## This handles login exceptions that are left unclassified.
-    #set ($loginException = $authenticationErrorContext.getExceptions().get(0))
-    #if ($loginException.getMessage())
-        #set ($message = "Login Failure: $loginException.getMessage()")
-    #else
-        #set ($message = $loginException.toString())
-    #end
+    #set ($error_title = "Unexpected Problem")
+    #set ($message = "An unexpected error occured and you request could not be processed. Please reload the page and try again.")
 #end
 
 #if ($message)
     <section class="ui negative message attached">
-        <div class="header">Failed to log in</div>
-        <p class="form-element form-error">$encoder.encodeForHTML($message)</p>
+        <div class="header">$error_title</div>
+        <p class="form-element form-error">$message</p>
     </section>
 #end
