@@ -13,12 +13,13 @@
     #if ($loginException.getMessage())
         #set ($message = "Login Failure: $loginException.getMessage()")
     #else
-    	#set ($message = $loginException.toString())
+        #set ($message = $loginException.toString())
     #end
 #end
 
 #if ($message)
-    <section>
+    <section class="ui negative message attached">
+        <div class="header">Failed to log in</div>
         <p class="form-element form-error">$encoder.encodeForHTML($message)</p>
     </section>
 #end

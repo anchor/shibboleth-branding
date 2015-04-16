@@ -10,20 +10,20 @@
 ##
 <!DOCTYPE html>
 <html>
-	<body></body>
+    <body></body>
 </html>
 
 #set ( $success = false )
 #set ( $logout = $profileRequestContext.getInboundMessageContext().getMessage() )
 #if ( $logout and $logout.getStatus() )
-	#set ( $sc = $logout.getStatus().getStatusCode() )
-	#if ( $sc and $sc.getValue() and $sc.getValue().contains('Success') )
-		#set ( $success = true )
-	#end
+    #set ( $sc = $logout.getStatus().getStatusCode() )
+    #if ( $sc and $sc.getValue() and $sc.getValue().contains('Success') )
+        #set ( $success = true )
+    #end
 #end
 
 #if ( $success )
-	$response.setStatus(200)
+    $response.setStatus(200)
 #else
-	$response.setStatus(500)
+    $response.setStatus(500)
 #end

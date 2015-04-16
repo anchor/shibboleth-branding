@@ -1,0 +1,11 @@
+<header class="sixteen wide column">
+    <div class="centered ten wide column">
+        <h1>
+            <img class="ui image centered"
+                src="$request.getContextPath()#springMessage("idp.logo")"
+                alt="#springMessageText("idp.logo.alt-text", "logo")">
+        </h1>
+    </div>
+    <!-- TODO: Service logo and description here. -->
+</header>
+

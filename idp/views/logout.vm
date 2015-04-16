@@ -14,73 +14,78 @@
 ## environment - Spring Environment object for property resolution
 ##
 <!DOCTYPE html>
-<html>
-  	<head>
-        <meta charset="utf-8">
-        <title>#springMessageText("idp.title", "Web Login Service")</title>
-        <link rel="stylesheet" type="text/css" href="$request.getContextPath()/css/main.css">
-        <style type="text/css">
-        iframe#buffer { position:absolute; visibility:hidden; left:0; top:0; }
-        </style>
-  	</head>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>#springMessageText("idp.title", "Web Login Service")</title>
 
-  	<body>
-    <div class="wrapper">
-      <div class="container">
-        <header>
-          <img src="$request.getContextPath()#springMessage("idp.logo")" alt="#springMessageText("idp.logo.alt-text", "logo")">
-        </header>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="$request.getContextPath()/css/semantic.css">
+    <link rel="stylesheet" href="$request.getContextPath()/css/stylesheet.css">
+    <style type="text/css">
+    iframe#buffer { position:absolute; visibility:hidden; left:0; top:0; }
+    </style>
+</head>
 
-        <div class="content">
-          <div class="column one">
-            <p>This logout page is an example and should be customized. It is not internationalized because the
-            presentation will be a highly localized decision, and we don't have a good suggestion for a default.</p>
+<body>
+<div id="app"><div class="ui page grid">
 
-            <p>This page is displayed when a logout operation at the Identity Provider completes.</p>
+<!-- PAGE HEADER -->
+#parse("page-banner.vm")
+
+<!-- PAGE BODY -->
+<section class="sixteen wide column"><div class="ui stackable grid"><div class="centered ten wide column">
+
+    <div class="ui raised blue segment top attached">
+        <h3 class="ui centered header">$title - $titleSuffix</h3>
+
+        <p>This logout page is an example and should be customized. It is not
+        internationalized because the presentation will be a highly localized
+        decision, and we don't have a good suggestion for a default.</p>
+
+        <p>This page is displayed when a logout operation at the Identity
+        Provider completes.</p>
     
-            <p><strong>It does NOT result in the user being logged out of any of the applications he/she
-            has accessed during a session, with the possible exception of a Service Provider that may have
-            initiated the logout operation.</strong></p>
+        <p><strong>It does NOT result in the user being logged out of any of
+        the applications he/she has accessed during a session, with the
+        possible exception of a Service Provider that may have initiated the
+        logout operation.</strong></p>
 
-            #if ( $logoutContext and !$logoutContext.getSessionMap().isEmpty() )
-                <p>The following is a list of services accessed during the session that has been terminated:</p>
-                <br>
-                <ul>
-                #foreach ($sp in $logoutContext.getSessionMap().keySet())
-                    #set ($rpCtx = $multiRPContext.getRelyingPartyContextById($sp))
-                    #if ($rpCtx)
-                      #set ($rpUIContext = $rpCtx.getSubcontext("net.shibboleth.idp.ui.context.RelyingPartyUIContext"))
-                    #end
-                    #if ($rpUIContext and $rpUIContext.getServiceName())
-                      <li>$encoder.encodeForHTML($rpUIContext.getServiceName())</li>
-                    #else
-                      <li>$encoder.encodeForHTML($sp)</li>
-                    #end
+        #if ( $logoutContext and !$logoutContext.getSessionMap().isEmpty() )
+
+            <p>The following is a list of services accessed during the session
+            that has been terminated:</p>
+
+            <ul>
+            #foreach ($sp in $logoutContext.getSessionMap().keySet())
+                #set ($rpCtx = $multiRPContext.getRelyingPartyContextById($sp))
+                #if ($rpCtx)
+                  #set ($rpUIContext = $rpCtx.getSubcontext("net.shibboleth.idp.ui.context.RelyingPartyUIContext"))
                 #end
-                </ul>	
+                #if ($rpUIContext and $rpUIContext.getServiceName())
+                  <li>$encoder.encodeForHTML($rpUIContext.getServiceName())</li>
+                #else
+                  <li>$encoder.encodeForHTML($sp)</li>
+                #end
             #end
+            </ul>    
+        #end
 
-          </div>
-          <div class="column two">
-            <ul class="list list-help">
-              <li class="list-help-item"><a href="#"><span class="item-marker">&rsaquo;</span> #springMessageText("idp.login.forgotPassword", "Forgot your password?")</a></li>
-              <li class="list-help-item"><a href="#"><span class="item-marker">&rsaquo;</span> #springMessageText("idp.login.needHelp", "Need Help?")</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
+        <ul class="list list-help">
+          <li class="list-help-item"><a href="#"><span class="item-marker">&rsaquo;</span> #springMessageText("idp.login.forgotPassword", "Forgot your password?")</a></li>
+          <li class="list-help-item"><a href="#"><span class="item-marker">&rsaquo;</span> #springMessageText("idp.login.needHelp", "Need Help?")</a></li>
+        </ul>
 
-      <!-- If flowExecutionUrl set, complete the flow by adding a hidden iframe. -->
-      #if ($flowExecutionUrl)
-          <iframe id="buffer" src="$flowExecutionUrl&_eventId_proceed">
-      #end
-      
-      <footer>
-        <div class="container container-footer">
-          <p class="footer-text">#springMessageText("idp.footer", "Insert your footer text here.")</p>
-        </div>
-      </footer>
+        #if ($flowExecutionUrl)
+        <!-- Complete the flow by adding a hidden iframe. -->
+        <iframe id="buffer" src="$flowExecutionUrl&_eventId_proceed">
+        #end
     </div>
-    
- 	</body>
-</html>
+      
+</div></div></section>
+
+<!-- PAGE FOOTER -->
+#parse("page-footer.vm")
+
+</div></div>
+</body></html>
