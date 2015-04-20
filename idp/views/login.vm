@@ -62,8 +62,8 @@
         </div>
 
         <div class="field"><div class="ui checkbox">
+            <input type="checkbox" id="donotcache" name="donotcache" value="1">
             <label for="donotcache">#springMessageText("idp.login.donotcache", "Don't Remember Login")</label>
-            <input type="checkbox" name="donotcache" value="1">
         </div></div>
 
 ##        <div class="field"><div class="ui checkbox">
